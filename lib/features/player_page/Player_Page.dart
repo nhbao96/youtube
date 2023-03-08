@@ -1,35 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
-import '../common/bases/base_widget.dart';
+import '../../common/bases/base_widget.dart';
 
 
-class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+class PlayerPage extends StatefulWidget {
+  const PlayerPage({Key? key}) : super(key: key);
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<PlayerPage> createState() => _PlayerPageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _PlayerPageState extends State<PlayerPage> {
 
   @override
   Widget build(BuildContext context) {
-    return PageContainer(child: HomeContainer(), providers: [],
+    return PageContainer(child: PlayerContainer(), providers: [],
       appBar: AppBar(title: Text("Youtube"),),
     );
   }
 }
 
 
-class HomeContainer extends StatefulWidget {
-  const HomeContainer({Key? key}) : super(key: key);
+class PlayerContainer extends StatefulWidget {
+  const PlayerContainer({Key? key}) : super(key: key);
 
   @override
-  State<HomeContainer> createState() => _HomeContainerState();
+  State<PlayerContainer> createState() => _PlayerContainerState();
 }
 
-class _HomeContainerState extends State<HomeContainer> {
+class _PlayerContainerState extends State<PlayerContainer> {
   late YoutubePlayerController _controller;
 
 
