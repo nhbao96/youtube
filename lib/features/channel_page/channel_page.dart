@@ -60,7 +60,7 @@ class _ChannelContainerState extends State<ChannelContainer> {
     super.initState();
     //  _initChannel();
     _bloc = context.read();
-    _bloc.eventSink.add(LoadChannelEvent("UC6Dy0rQ6zDnQuHQ1EeErGUA"));
+    _bloc.eventSink.add(LoadChannelEvent("UC9sQy-VRzDaDuBD3n4xJ0Zg"));
   }
 
   _buildProfileInfo() {
@@ -161,17 +161,6 @@ class _ChannelContainerState extends State<ChannelContainer> {
     );
   }
 
-  _loadMoreVideos() async {
-    _isLoading = true;
-    List<Video> moreVideos = await APIService.instance
-        .fetchVideosFromPlaylist(playlistId: _channel.uploadPlaylistId);
-    List<Video> allVideos = _channel.videos..addAll(moreVideos);
-    setState(() {
-      _channel.videos = allVideos;
-    });
-    _isLoading = false;
-  }
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -188,7 +177,7 @@ class _ChannelContainerState extends State<ChannelContainer> {
                 _channel.videos.length != int.parse(_channel.videoCount) &&
                 scrollDetails.metrics.pixels ==
                     scrollDetails.metrics.maxScrollExtent) {
-              _loadMoreVideos();
+              _bloc.eventSink.add(LoadChannelEvent("UC9sQy-VRzDaDuBD3n4xJ0Zg"));
             }
             return false;
           },
