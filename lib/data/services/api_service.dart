@@ -1,12 +1,18 @@
 import 'dart:convert';
 import 'dart:io';
 
-import '../models/channel_model.dart';
-import '../models/video_model.dart';
+import '../datasources/models/channel_model.dart';
+import '../datasources/models/video_model.dart';
 import '../utilities/keys.dart';
 import 'package:http/http.dart' as http;
 class APIService {
   APIService._instantiate();
+
+  late APIService _apiService;
+
+  APIService(){
+    _apiService = APIService._instantiate();
+  }
 
   static final APIService instance = APIService._instantiate();
 
@@ -42,6 +48,25 @@ class APIService {
     } else {
       throw json.decode(response.body)['error']['message'];
     }
+  }
+
+  Future getDataChannelFromApi({required String channelId})  {
+    Map<String, String> parameters = {
+      'part': 'snippet, contentDetails, statistics',
+      'id': channelId,
+      'key': API_KEY,
+    };
+    Uri uri = Uri.https(
+      _baseUrl,
+      '/youtube/v3/channels',
+      parameters,
+    );
+    Map<String, String> headers = {
+      HttpHeaders.contentTypeHeader: 'application/json',
+    };
+
+    // Get Channel
+   return  http.get(uri, headers: headers);
   }
 
   Future<List<Video>> fetchVideosFromPlaylist({required String playlistId}) async {
@@ -82,24 +107,25 @@ class APIService {
     }
   }
 
-  Future<List<dynamic>> fetchVideos() async {
-    final apiKey = API_KEY;
-    final apiUrl = 'https://www.googleapis.com/youtube/v3/videos';
-    final queryParameters = {
+  Future getDataVideosPlaylistFromApi({required String playlistId}) {
+    Map<String, String> parameters = {
       'part': 'snippet',
-      'chart': 'mostPopular',
-      'maxResults': '10',
-      'key': apiKey,
+      'playlistId': playlistId,
+      'maxResults': '8',
+      'pageToken': _nextPageToken,
+      'key': API_KEY,
     };
-    final uri = Uri.parse(apiUrl).replace(queryParameters: queryParameters);
-    final response = await http.get(uri);
-    if (response.statusCode == 200) {
-      final data = json.decode(response.body);
-      print("fetch Trending : list = ${data['items']}");
-      return data['items'];
-    } else {
-      throw Exception('Failed to fetch videos');
-    }
+    Uri uri = Uri.https(
+      _baseUrl,
+      '/youtube/v3/playlistItems',
+      parameters,
+    );
+    Map<String, String> headers = {
+      HttpHeaders.contentTypeHeader: 'application/json',
+    };
+
+    // Get Playlist Videos
+   return http.get(uri, headers: headers);
   }
 
 }

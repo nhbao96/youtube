@@ -19,4 +19,9 @@ class Video {
       channelTitle: snippet['channelTitle'],
     );
   }
+
+  @override
+  String toString() {
+    return 'Video{id: $id, title: $title, thumbnailUrl: $thumbnailUrl, channelTitle: $channelTitle}';
+  }
 }

@@ -1,4 +1,5 @@
-import 'package:youtube_baonh/data/models/video_model.dart';
+import 'package:youtube_baonh/data/datasources/models/video_model.dart';
+
 
 class Channel {
 
@@ -31,4 +32,8 @@ class Channel {
     );
   }
 
+  @override
+  String toString() {
+    return 'Channel{id: $id, title: $title, profilePictureUrl: $profilePictureUrl, subscriberCount: $subscriberCount, videoCount: $videoCount, uploadPlaylistId: $uploadPlaylistId, videos: $videos}';
+  }
 }
