@@ -23,7 +23,7 @@ class APIService {
     Map<String, String> parameters = {
       'part': 'snippet, contentDetails, statistics',
       'id': channelId,
-      'key': API_KEY,
+      'key': ApiConstant.API_KEY,
     };
     Uri uri = Uri.https(
       _baseUrl,
@@ -44,7 +44,7 @@ class APIService {
       'playlistId': playlistId,
       'maxResults': totalVideos.toString(),
       'pageToken': _nextPageToken,
-      'key': API_KEY,
+      'key': ApiConstant.API_KEY,
     };
     Uri uri = Uri.https(
       _baseUrl,
@@ -59,4 +59,14 @@ class APIService {
    return http.get(uri, headers: headers);
   }
 
+  Future getRelatedVideos(String videoId) {
+      final url = 'https://www.googleapis.com/youtube/v3/search'
+        '?part=snippet'
+        '&type=video'
+        '&maxResults=100'
+        '&relatedToVideoId=$videoId'
+        '&key=${ApiConstant.API_KEY}';
+
+    return http.get(Uri.parse(url));
+  }
 }

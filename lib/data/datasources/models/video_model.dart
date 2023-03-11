@@ -20,6 +20,15 @@ class Video {
     );
   }
 
+  factory Video.fromMapRelative(Map<String, dynamic> video) {
+    return Video(
+      id: video["id"]["videoId"],
+      title: video["snippet"]["title"],
+      thumbnailUrl: video["snippet"]["thumbnails"]["default"]["url"],
+      channelTitle: video["snippet"]["title"],
+    );
+  }
+
   @override
   String toString() {
     return 'Video{id: $id, title: $title, thumbnailUrl: $thumbnailUrl, channelTitle: $channelTitle}';

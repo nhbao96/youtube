@@ -27,7 +27,7 @@ class ChannelRespository{
         List<Video> videos = await getListVideosPlaylist(channel.uploadPlaylistId, int.parse(channel.videoCount)) as List<Video>;
 
         channel.videos = videos;
-        print(channel.toString());
+
         completer.complete(channel);
       } else {
         throw json.decode(response.body)['error']['message'];
@@ -54,7 +54,7 @@ class ChannelRespository{
             Video.fromMap(json['snippet']),
           ),
         );
-        print("list videos = ${videos.length}");
+
         completer.complete(videos);
       } else {
         throw json.decode(response.body)['error']['message'];

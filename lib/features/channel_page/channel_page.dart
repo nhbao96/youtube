@@ -122,7 +122,7 @@ class _ChannelContainerState extends State<ChannelContainer> {
       onTap: () => Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (_) => VideoScreen(id: video.id),
+          builder: (_) => VideoScreenPage(video),
         ),
       ),
       child: Container(
