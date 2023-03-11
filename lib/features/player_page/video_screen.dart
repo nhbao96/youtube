@@ -76,35 +76,43 @@ class _VideoScreenContainerState extends State<VideoScreenContainer> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(child: Column(
+    return SafeArea(child: Stack(
       children: [
-        YoutubePlayer(
-          controller: _controller,
-          showVideoProgressIndicator: true,
-          onReady: () {
-            print('Player is ready.');
-          },
-        ),
-        Expanded(
-          child: StreamBuilder<List<Video>>(
-            stream: _relativeBloc.streamController.stream,
-            builder: (context, snapshot) {
-              if(snapshot.hasError || snapshot.data == null){
-                return Container();
+        Column(
+          children: [
+            Expanded(child: Container()),
+            Expanded(flex: 2,
+              child: StreamBuilder<List<Video>>(
+                stream: _relativeBloc.streamController.stream,
+                builder: (context, snapshot) {
+                  if(snapshot.hasError || snapshot.data == null){
+                    return Container();
+                    }
+                  return ListView.builder(
+                    itemCount: snapshot.data?.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return relatedVideoWidget(snapshot.data![index]);
+                    },
+                  );
                 }
-              return ListView.builder(
-                itemCount: snapshot.data?.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return relatedVideoWidget(snapshot.data![index]);
-                },
-              );
-            }
-          ),
-        )
+              ),
+            )
+          ],
+        ),
+        playerWidget()
       ],
     ));
   }
 
+  Widget playerWidget(){
+    return YoutubePlayer(
+      controller: _controller,
+      showVideoProgressIndicator: true,
+      onReady: () {
+        print('Player is ready.');
+      },
+    );
+  }
   Widget relatedVideoWidget(Video video){
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 20.0, vertical: 5.0),
