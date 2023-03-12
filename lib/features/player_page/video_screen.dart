@@ -36,7 +36,8 @@ class _VideoScreenPageState extends State<VideoScreenPage> {
                 relativeBloc?.updateRelativeRespository(relativeRespository);
                 return relativeBloc!;
               })
-        ]);
+        ],
+     );
   }
 }
 

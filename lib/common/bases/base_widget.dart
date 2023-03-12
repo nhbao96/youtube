@@ -2,12 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 
+import '../../features/navigation_bar/navigation_bar.dart';
+
 class PageContainer extends StatelessWidget {
   final Widget child;
   final List<SingleChildWidget> providers;
   AppBar? appBar;
+  bool? isShowNavigationBar;
+  int? indexSelectedNavigation;
 
-  PageContainer({required this.child, required this.providers, this.appBar});
+  PageContainer(
+      {required this.child,
+      required this.providers,
+      this.appBar,
+      this.isShowNavigationBar,
+      this.indexSelectedNavigation});
 
   @override
   Widget build(BuildContext context) {
@@ -15,19 +24,38 @@ class PageContainer extends StatelessWidget {
   }
 
   Widget shouldRenderPage() {
-    if (providers.isNotEmpty) {
-      return MultiProvider(
-        providers: [...providers],
-        child: Scaffold(
-          appBar: appBar,
-          body: child,
-        ),
-      );
+    if (this.isShowNavigationBar == true) {
+      if (providers.isNotEmpty) {
+        return MultiProvider(
+          providers: [...providers],
+          child: Scaffold(
+            appBar: appBar,
+            body: child,
+            bottomNavigationBar:
+            NavigationBarBottom(indexSelectedNavigation ?? 0),
+          ),
+        );
+      } else {
+        return Scaffold(
+            appBar: appBar,
+            body: child,
+            bottomNavigationBar:
+            NavigationBarBottom(indexSelectedNavigation ?? 0));
+      }
     } else {
-      return Scaffold(
-        appBar: appBar,
-        body: child,
-      );
+      if (providers.isNotEmpty) {
+        return MultiProvider(
+          providers: [...providers],
+          child: Scaffold(
+            appBar: appBar,
+            body: child,
+          ),
+        );
+      } else {
+        return Scaffold(
+            appBar: appBar,
+            body: child,);
+      }
     }
   }
 }

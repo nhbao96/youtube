@@ -40,6 +40,7 @@ class _ChannelPageState extends State<ChannelPage> {
         )
       ],
       appBar: AppBar(title: Text("Youtube Channel")),
+      isShowNavigationBar: true,
     );
   }
 }
