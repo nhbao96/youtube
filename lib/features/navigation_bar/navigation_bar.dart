@@ -54,9 +54,11 @@ class _NavigationBarBottomState extends State<NavigationBarBottom> {
     switch(index) {
       case 0:
       // navigate to home page
+        Navigator.pushReplacementNamed(context, "home-screen");
         break;
       case 1:
       // navigate to search page
+        Navigator.pushReplacementNamed(context, "search-page");
         break;
       case 2:
       // navigate to profile page

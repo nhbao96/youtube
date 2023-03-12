@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:youtube_baonh/features/search_page/search_page.dart';
 
 
 import 'features/channel_page/channel_page.dart';
@@ -21,7 +22,8 @@ class MyApp extends StatelessWidget {
       ),
       routes: {
         "player-page": (context) => PlayerPage(),
-        "home-screen": (context) =>ChannelPage()
+        "home-screen": (context) =>ChannelPage(),
+        "search-page": (context)=> SearchPage()
       },
       initialRoute:  "home-screen",
     );

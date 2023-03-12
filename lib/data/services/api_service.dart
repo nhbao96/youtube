@@ -60,7 +60,7 @@ class APIService {
   }
 
   Future getRelatedVideos(String videoId) {
-      final url = 'https://www.googleapis.com/youtube/v3/search'
+    String url = 'https://www.googleapis.com/youtube/v3/search'
         '?part=snippet'
         '&type=video'
         '&maxResults=100'
@@ -68,5 +68,17 @@ class APIService {
         '&key=${ApiConstant.API_KEY}';
 
     return http.get(Uri.parse(url));
+  }
+
+  Future getTrendingKeywordsForSearch(){
+    final queryParams = {
+      "part": "snippet",
+      "chart": "mostPopular",
+      "regionCode": "VN",
+      "maxResults": "5",
+      "key": ApiConstant.API_KEY
+    };
+    final uri = Uri.parse("https://www.googleapis.com/youtube/v3/search?" + Uri(queryParameters: queryParams).query);
+    return http.get(uri);
   }
 }
