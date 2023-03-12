@@ -69,7 +69,7 @@ class _SearchContainerState extends State<SearchContainer> {
   Widget build(BuildContext context) {
     return  SafeArea(
       child: Container(
-
+        margin: EdgeInsets.symmetric(horizontal: 10),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -113,7 +113,6 @@ class _SearchContainerState extends State<SearchContainer> {
                       }else{
                         return buildVideo(context,snapshot.data!.videos[index]);
                       }
-
                     },
                   );
                 }
