@@ -34,4 +34,50 @@ class SearchRespository{
     }
     return completer.future;
   }
+
+  Future<List<Video>> searchVideo(String keyword) async{
+    Completer<List<Video>> completer = Completer();
+    try{
+      Response response = await _apiService.searchVideo(keyword);
+      print("SearchRespository : searchVideo : ${response.statusCode}");
+      if(response.statusCode == 200) {
+        var data = json.decode(response.body);
+        List<dynamic> videosJson = data['items'];
+        // Fetch first eight videos from uploads playlist
+        List<Video> videos = [];
+        videosJson.forEach(
+              (json) => videos.add(
+            Video.fromMapRelative(json),
+          ),
+        );
+        completer.complete(videos);
+      }
+    }catch(e){
+      completer.completeError(e.toString());
+    }
+    return completer.future;
+  }
+
+  Future<List<Video>> autoComplete(String keyword) async{
+    Completer<List<Video>> completer = Completer();
+    try{
+      Response response = await _apiService.autocomplete(keyword);
+      print("SearchRespository : autoComplete : ${response.statusCode}");
+      if(response.statusCode == 200) {
+        var data = json.decode(response.body);
+        List<dynamic> videosJson = data['items'];
+        // Fetch first eight videos from uploads playlist
+        List<Video> videos = [];
+        videosJson.forEach(
+              (json) => videos.add(
+            Video.fromMapRelative(json),
+          ),
+        );
+        completer.complete(videos);
+      }
+    }catch(e){
+      completer.completeError(e.toString());
+    }
+    return completer.future;
+  }
 }

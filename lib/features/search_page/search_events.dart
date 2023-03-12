@@ -7,3 +7,23 @@ class LoadRecommendKeywords extends BaseEvent{
 
   LoadRecommendKeywords();
 }
+
+class SearchWithKeywordEvent extends BaseEvent{
+  @override
+  // TODO: implement props
+  List<Object?> get props =>[];
+
+  String keyword;
+
+  SearchWithKeywordEvent(this.keyword);
+}
+
+class AutoCompleteKeywordsEvent extends BaseEvent{
+  @override
+  // TODO: implement props
+  List<Object?> get props =>[];
+
+  String keyword;
+
+  AutoCompleteKeywordsEvent(this.keyword);
+}

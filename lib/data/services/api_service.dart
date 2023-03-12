@@ -81,4 +81,19 @@ class APIService {
     final uri = Uri.parse("https://www.googleapis.com/youtube/v3/search?" + Uri(queryParameters: queryParams).query);
     return http.get(uri);
   }
+
+  Future searchVideo(String query){
+    final apiKey = ApiConstant.API_KEY;
+    final url =
+        'https://www.googleapis.com/youtube/v3/search?key=$apiKey&part=snippet&q=$query&type=video';
+
+    return http.get(Uri.parse(url));
+  }
+
+  Future autocomplete(String query) {
+    final apiKey = ApiConstant.API_KEY;
+    final url =
+        'https://suggestqueries.google.com/complete/search?key=$apiKey&client=youtube&ds=yt&q=$query';
+    return http.get(Uri.parse(url));
+  }
 }
