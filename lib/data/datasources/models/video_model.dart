@@ -29,6 +29,15 @@ class Video {
     );
   }
 
+  factory Video.fromMapTrendingMusic(Map<String, dynamic> video) {
+    return Video(
+      id: video["id"],
+      title: video["snippet"]["title"],
+      thumbnailUrl: video["snippet"]["thumbnails"]["medium"]["url"],
+      channelTitle: video["snippet"]["channelTitle"],
+    );
+  }
+
   @override
   String toString() {
     return 'Video{id: $id, title: $title, thumbnailUrl: $thumbnailUrl, channelTitle: $channelTitle}';

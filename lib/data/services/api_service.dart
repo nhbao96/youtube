@@ -96,4 +96,17 @@ class APIService {
         'https://suggestqueries.google.com/complete/search?key=$apiKey&client=youtube&ds=yt&q=$query';
     return http.get(Uri.parse(url));
   }
+
+  Future getTrendingMusicVideos(int maxResult){
+    final queryParams = {
+      "part": "snippet",
+      "chart": "mostPopular",
+      "regionCode": "VN",
+      "videoCategoryId" :"10",
+      "maxResults": maxResult.toString(),
+      "key": ApiConstant.API_KEY
+    };
+    final uri = Uri.parse("https://www.googleapis.com/youtube/v3/videos?" + Uri(queryParameters: queryParams).query);
+    return http.get(uri);
+  }
 }
