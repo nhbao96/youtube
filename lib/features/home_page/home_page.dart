@@ -2,12 +2,15 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:youtube_baonh/common/bases/base_widget.dart';
+import 'package:youtube_baonh/common/constants/variable_constant.dart';
+import 'package:youtube_baonh/data/datasources/models/videos_response.dart';
 import 'package:youtube_baonh/data/respositories/home_respository.dart';
 import 'package:youtube_baonh/data/services/api_service.dart';
 import 'package:youtube_baonh/features/home_page/home_bloc.dart';
 import 'package:youtube_baonh/features/home_page/home_events.dart';
 
 import '../../data/datasources/models/video_model.dart';
+import '../components/square_widget.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -19,6 +22,8 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
+    final appBarHeight = AppBar().preferredSize.height;
+    final appBarWidth = MediaQuery.of(context).size.width;
     return PageContainer(child: HomeContainer(),
         providers: [
           Provider<APIService>(create: (context)=>APIService()),
@@ -35,7 +40,8 @@ class _HomePageState extends State<HomePage> {
                 return homeBloc!;
               })
         ],
-    appBar: AppBar(title: Text("Home Page"),),
+    appBar: AppBar(
+    ),
     isShowNavigationBar: true,);
   }
 }
@@ -55,6 +61,7 @@ class _HomeContainerState extends State<HomeContainer> {
     super.initState();
     _homeBloc = context.read();
     _homeBloc.eventSink.add(LoadTrendingMusicSliderEvent());
+    _homeBloc.eventSink.add(LoadCountryTracksEvent("VN", "vietnam music", VariableConstant.LAYOUT_COMPO_VN));
   }
 
   @override
@@ -66,38 +73,52 @@ class _HomeContainerState extends State<HomeContainer> {
       children: [
         Flexible(child: Container(
           margin: EdgeInsets.symmetric(vertical: 5,horizontal: 5),
-          child: StreamBuilder<List<Video>>(
-            stream: _homeBloc.streamController.stream,
+          child: StreamBuilder<VideosResponse>(
+            stream: _homeBloc.sliderStreamController.stream,
             builder: (context,snapshot){
-              if(snapshot.hasError || snapshot.data == null){
+              if(snapshot.hasError || snapshot.data == null ){
                 return Container();
               }
-              return _sliderTrendingWidget(snapshot.data!,baseWidth,200);
+              return _sliderTrendingWidget(snapshot.data!.videos,baseWidth);
             },
           ),
-        ) )
+        ) ),
+        Flexible(child: Container(
+          margin: EdgeInsets.symmetric(vertical: 5,horizontal: 5),
+          child: StreamBuilder<VideosResponse>(
+            stream: _homeBloc.vnTracksStreamController.stream,
+            builder: (context,snapshot){
+              if(snapshot.hasError || snapshot.data == null ){
+                return Container();
+              }
+              return _sliderTrendingWidget(snapshot.data!.videos,baseWidth);
+            },
+          ),
+        ))
       ],
     ));
   }
 
-  Widget _sliderTrendingWidget(List<Video> videos, double width, double height){
-    return CarouselSlider(
-      items: videos
-          .map((item) => _sliderItem(item,width,height))
-          .toList(),
-      options: CarouselOptions(
-        autoPlay: true,
-        autoPlayInterval: Duration(seconds: 3),
-        autoPlayAnimationDuration: Duration(milliseconds: 1000),
-        autoPlayCurve: Curves.fastOutSlowIn,
-        viewportFraction: 1.0
+  Widget _sliderTrendingWidget(List<Video> videos, double width){
+    return Align(
+      alignment: Alignment.topCenter,
+      child: CarouselSlider(
+        items: videos
+            .map((item) => _sliderItem(item,width))
+            .toList(),
+        options: CarouselOptions(
+          autoPlay: true,
+          autoPlayInterval: Duration(seconds: 3),
+          autoPlayAnimationDuration: Duration(milliseconds: 1000),
+          autoPlayCurve: Curves.fastOutSlowIn,
+          viewportFraction: 1.0
+        ),
       ),
     );
   }
 
-  Widget _sliderItem(Video video,double width, double height){
+  Widget _sliderItem(Video video,double width){
     return Container(
-      height: height,
       width: width,
       margin: EdgeInsets.symmetric(horizontal: 2.5),
       decoration: BoxDecoration(

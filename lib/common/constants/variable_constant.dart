@@ -8,4 +8,6 @@ class VariableConstant {
   static final String CART_PAGE = "cart";
   static final String ORDER_HISTORY_PAGE = "order";
   static final String ORDER_DETAIL_PAGE = "order-detail";
+  static final String LAYOUT_COMPO_SLIDER = "slider";
+  static final String LAYOUT_COMPO_VN = "vietnam_track";
 }

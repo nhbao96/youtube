@@ -5,12 +5,13 @@ import '../datasources/models/channel_model.dart';
 import '../datasources/models/video_model.dart';
 import '../utilities/keys.dart';
 import 'package:http/http.dart' as http;
+
 class APIService {
   APIService._instantiate();
 
   late APIService _apiService;
 
-  APIService(){
+  APIService() {
     _apiService = APIService._instantiate();
   }
 
@@ -19,7 +20,7 @@ class APIService {
   final String _baseUrl = 'www.googleapis.com';
   String _nextPageToken = '';
 
-  Future getDataChannelFromApi({required String channelId})  {
+  Future getDataChannelFromApi({required String channelId}) {
     Map<String, String> parameters = {
       'part': 'snippet, contentDetails, statistics',
       'id': channelId,
@@ -35,10 +36,11 @@ class APIService {
     };
 
     // Get Channel
-   return  http.get(uri, headers: headers);
+    return http.get(uri, headers: headers);
   }
 
-  Future getDataVideosPlaylistFromApi({required String playlistId, required int totalVideos}) {
+  Future getDataVideosPlaylistFromApi(
+      {required String playlistId, required int totalVideos}) {
     Map<String, String> parameters = {
       'part': 'snippet',
       'playlistId': playlistId,
@@ -56,7 +58,7 @@ class APIService {
     };
 
     // Get Playlist Videos
-   return http.get(uri, headers: headers);
+    return http.get(uri, headers: headers);
   }
 
   Future getRelatedVideos(String videoId) {
@@ -70,7 +72,7 @@ class APIService {
     return http.get(Uri.parse(url));
   }
 
-  Future getTrendingKeywordsForSearch(){
+  Future getTrendingKeywordsForSearch() {
     final queryParams = {
       "part": "snippet",
       "chart": "mostPopular",
@@ -78,11 +80,12 @@ class APIService {
       "maxResults": "5",
       "key": ApiConstant.API_KEY
     };
-    final uri = Uri.parse("https://www.googleapis.com/youtube/v3/search?" + Uri(queryParameters: queryParams).query);
+    final uri = Uri.parse("https://www.googleapis.com/youtube/v3/search?" +
+        Uri(queryParameters: queryParams).query);
     return http.get(uri);
   }
 
-  Future searchVideo(String query){
+  Future searchVideo(String query) {
     final apiKey = ApiConstant.API_KEY;
     final url =
         'https://www.googleapis.com/youtube/v3/search?key=$apiKey&part=snippet&q=$query&type=video';
@@ -97,16 +100,59 @@ class APIService {
     return http.get(Uri.parse(url));
   }
 
-  Future getTrendingMusicVideos(int maxResult){
+  Future getTrendingMusicVideos(int maxResult) {
     final queryParams = {
       "part": "snippet",
       "chart": "mostPopular",
       "regionCode": "VN",
-      "videoCategoryId" :"10",
+      "videoCategoryId": "10",
       "maxResults": maxResult.toString(),
       "key": ApiConstant.API_KEY
     };
-    final uri = Uri.parse("https://www.googleapis.com/youtube/v3/videos?" + Uri(queryParameters: queryParams).query);
+    final uri = Uri.parse("https://www.googleapis.com/youtube/v3/videos?" +
+        Uri(queryParameters: queryParams).query);
     return http.get(uri);
+  }
+
+  Future getTopTrackMusic(String country, String queryKey, int maxResult) {
+    // Replace with your YouTube API key
+    final apiKey =  ApiConstant.API_KEY;
+
+    // Define the search query for the top music tracks in Vietnam
+    String query = queryKey;// 'vietnam music';
+
+    // Set the search parameters to get the top music tracks
+    final url = Uri.https(
+      'www.googleapis.com',
+      '/youtube/v3/search',
+      {
+        'part': 'snippet',
+        'q': query,
+        'maxResults': maxResult.toString(),
+        'type': 'video',
+        'videoDefinition': 'high',
+        'videoCategory': '10', // Vietnamese music category ID
+        'regionCode': country, // Country code for Vietnam
+        'chart': 'mostPopular', // Get the most popular videos
+        'key': apiKey,
+      },
+    );
+
+    // Get the search results from the YouTube Data API
+    return http.get(url);
+  }
+
+  Future getDetailOfTopTracks(List<String> ids){
+    final apiKey =  ApiConstant.API_KEY;
+    final videoUrl = Uri.https(
+      'www.googleapis.com',
+      '/youtube/v3/videos',
+      {
+        'part': 'snippet',
+        'id': ids.join(','),
+        'key': apiKey,
+      },
+    );
+    return  http.get(videoUrl);
   }
 }
