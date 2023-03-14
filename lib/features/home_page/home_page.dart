@@ -91,7 +91,7 @@ class _HomeContainerState extends State<HomeContainer> {
               if(snapshot.hasError || snapshot.data == null ){
                 return Container();
               }
-              return _sliderTrendingWidget(snapshot.data!.videos,baseWidth);
+              return _horizontalListVideo(snapshot.data!.videos);
             },
           ),
         ))
@@ -159,5 +159,13 @@ class _HomeContainerState extends State<HomeContainer> {
 
   }
 
+  Widget _horizontalListVideo(List<Video> videos){
+    return ListView.builder(
+        scrollDirection: Axis.horizontal,
+        itemCount: videos.length,
+        itemBuilder: (context,index){
+          return SquareWidget(videos[index]);
+        });
+  }
 }
 

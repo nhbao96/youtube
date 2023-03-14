@@ -24,7 +24,7 @@ class Video {
     return Video(
       id: video["id"]["videoId"],
       title: video["snippet"]["title"],
-      thumbnailUrl: video["snippet"]["thumbnails"]["default"]["url"],
+      thumbnailUrl: video["snippet"]["thumbnails"]["high"]["url"],
       channelTitle: video["snippet"]["title"],
     );
   }
