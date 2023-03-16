@@ -6,6 +6,7 @@ import 'package:youtube_baonh/common/constants/variable_constant.dart';
 import 'package:youtube_baonh/data/datasources/models/videos_response.dart';
 import 'package:youtube_baonh/data/respositories/home_respository.dart';
 import 'package:youtube_baonh/data/services/api_service.dart';
+import 'package:youtube_baonh/features/components/grid_video_widget.dart';
 import 'package:youtube_baonh/features/home_page/home_bloc.dart';
 import 'package:youtube_baonh/features/home_page/home_events.dart';
 
@@ -68,10 +69,9 @@ class _HomeContainerState extends State<HomeContainer> {
   Widget build(BuildContext context) {
     double baseWidth = MediaQuery.of(context).size.width;
     double baseHeight = MediaQuery.of(context).size.height;
-    return SafeArea(child: Column(
-      mainAxisAlignment: MainAxisAlignment.start,
+    return SafeArea(child: ListView(
       children: [
-        Flexible(child: Container(
+        Container(
           margin: EdgeInsets.symmetric(vertical: 5,horizontal: 5),
           child: StreamBuilder<VideosResponse>(
             stream: _homeBloc.sliderStreamController.stream,
@@ -82,8 +82,10 @@ class _HomeContainerState extends State<HomeContainer> {
               return _sliderTrendingWidget(snapshot.data!.videos,baseWidth);
             },
           ),
-        ) ),
-        Flexible(child: Container(
+        ),
+        Container(
+          color: Colors.yellow,
+          height: 220,
           margin: EdgeInsets.symmetric(vertical: 5,horizontal: 5),
           child: StreamBuilder<VideosResponse>(
             stream: _homeBloc.vnTracksStreamController.stream,
@@ -91,27 +93,67 @@ class _HomeContainerState extends State<HomeContainer> {
               if(snapshot.hasError || snapshot.data == null ){
                 return Container();
               }
-              return _horizontalListVideo(snapshot.data!.videos);
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text("Top Track VN"),
+                  _horizontalListVideo(snapshot.data!.videos),
+                ],
+              );
             },
           ),
-        ))
+        ),
+        Container(
+          width: baseWidth*0.8,
+          height:335 ,
+        color: Colors.red,
+          margin: EdgeInsets.symmetric(horizontal: 5),
+          child:   StreamBuilder<VideosResponse>(
+              stream: _homeBloc.sliderStreamController.stream,
+              builder: (context, snapshot) {
+                if(snapshot.hasError || snapshot.data == null ){
+                  return Container();
+                }
+                return GridView.count(
+                  primary: false,
+                  padding: const EdgeInsets.all(20),
+                  crossAxisSpacing: 10,
+                  mainAxisSpacing: 10,
+                  crossAxisCount: 2,
+                  childAspectRatio: 2.5,
+                  children: List.generate(
+                   8,
+                        (index) => Container(
+                      color: Colors.blue,
+                      child: Center(
+                        child: GridItemWidget( snapshot.data!.videos[index]),
+                      ),
+                    ),
+                  ),
+                );
+              }
+          ),
+        )
       ],
+
     ));
   }
 
   Widget _sliderTrendingWidget(List<Video> videos, double width){
-    return Align(
-      alignment: Alignment.topCenter,
-      child: CarouselSlider(
-        items: videos
-            .map((item) => _sliderItem(item,width))
-            .toList(),
-        options: CarouselOptions(
-          autoPlay: true,
-          autoPlayInterval: Duration(seconds: 3),
-          autoPlayAnimationDuration: Duration(milliseconds: 1000),
-          autoPlayCurve: Curves.fastOutSlowIn,
-          viewportFraction: 1.0
+    return Container(
+      child: Align(
+        alignment: Alignment.topCenter,
+        child: CarouselSlider(
+          items: videos
+              .map((item) => _sliderItem(item,width))
+              .toList(),
+          options: CarouselOptions(
+            autoPlay: true,
+            autoPlayInterval: Duration(seconds: 3),
+            autoPlayAnimationDuration: Duration(milliseconds: 1000),
+            autoPlayCurve: Curves.fastOutSlowIn,
+            viewportFraction: 1.0
+          ),
         ),
       ),
     );
@@ -160,12 +202,15 @@ class _HomeContainerState extends State<HomeContainer> {
   }
 
   Widget _horizontalListVideo(List<Video> videos){
-    return ListView.builder(
-        scrollDirection: Axis.horizontal,
-        itemCount: videos.length,
-        itemBuilder: (context,index){
-          return SquareWidget(videos[index]);
-        });
+    return Container(
+      height: 140,
+      child: ListView.builder(
+          scrollDirection: Axis.horizontal,
+          itemCount: videos.length,
+          itemBuilder: (context,index){
+            return SquareWidget(videos[index]);
+          }),
+    );
   }
 }
 

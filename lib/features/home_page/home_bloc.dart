@@ -11,8 +11,8 @@ import '../../data/datasources/models/video_model.dart';
 
 class HomeBloc extends BaseBloc{
   late HomeRespository _homeRespository;
-  StreamController<VideosResponse> _sliderStreamController = StreamController();
-  StreamController<VideosResponse> _vnTracksStreamController = StreamController();
+  StreamController<VideosResponse> _sliderStreamController = StreamController.broadcast();
+  StreamController<VideosResponse> _vnTracksStreamController = StreamController.broadcast();
 
   StreamController<VideosResponse> get sliderStreamController => _sliderStreamController;
 
