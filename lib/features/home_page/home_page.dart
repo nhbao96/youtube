@@ -10,8 +10,10 @@ import 'package:youtube_baonh/features/components/grid_video_widget.dart';
 import 'package:youtube_baonh/features/home_page/home_bloc.dart';
 import 'package:youtube_baonh/features/home_page/home_events.dart';
 
+import '../../common/utils/extension.dart';
 import '../../data/datasources/models/video_model.dart';
 import '../components/square_widget.dart';
+import '../player_page/video_screen.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -43,26 +45,7 @@ class _HomePageState extends State<HomePage> {
         ],
     appBar: AppBar(
       backgroundColor: Colors.black,
-      centerTitle: true,
-     title:  Container(
-       width: 300,
-       height: 50,
-       child: TextField(
-
-         decoration: InputDecoration(
-           hintText: "Search...",
-           border: OutlineInputBorder(),
-         ),
-         onChanged: (value){
-
-         },
-         onSubmitted: (value){
-           print("SearchPage : submit keyword : $value");
-
-         },
-       ),
-     ),
-    ),
+      title: Text(greeting(),style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,color: Colors.white),),),
     isShowNavigationBar: true,);
   }
 }
@@ -83,10 +66,10 @@ class _HomeContainerState extends State<HomeContainer> {
     super.initState();
     _homeBloc = context.read();
     _homeBloc.eventSink.add(LoadTrendingMusicSliderEvent());
-    _homeBloc.eventSink.add(LoadCountryTracksEvent("VN", "vietnam music", VariableConstant.LAYOUT_COMPO_VN));
-    _homeBloc.eventSink.add(LoadCountryTracksEvent("US", "vietnam music", VariableConstant.LAYOUT_COMPO_VN));
-    _homeBloc.eventSink.add(LoadCountryTracksEvent("KR", "vietnam music", VariableConstant.LAYOUT_COMPO_VN));
-    _homeBloc.eventSink.add(LoadCountryTracksEvent("UK", "vietnam music", VariableConstant.LAYOUT_COMPO_VN));
+    _homeBloc.eventSink.add(LoadCountryTracksEvent("VN", "vietnam top  billboard music", VariableConstant.LAYOUT_COMPO_VN));
+    _homeBloc.eventSink.add(LoadCountryTracksEvent("US", "us music", VariableConstant.LAYOUT_COMPO_VN));
+    _homeBloc.eventSink.add(LoadCountryTracksEvent("KR", "korea music", VariableConstant.LAYOUT_COMPO_VN));
+    _homeBloc.eventSink.add(LoadCountryTracksEvent("UK", "uk music", VariableConstant.LAYOUT_COMPO_VN));
   }
 
   @override
@@ -120,7 +103,7 @@ class _HomeContainerState extends State<HomeContainer> {
           ), //slider
           Container(
             height: null,
-            margin: EdgeInsets.symmetric(vertical: 5,horizontal: 5),
+            margin: EdgeInsets.only(left: 5,right: 5,top: 30),
             child: StreamBuilder<VideosResponse>(
               stream: _homeBloc.usTracksStreamController.stream,
               builder: (context,snapshot){
@@ -129,8 +112,8 @@ class _HomeContainerState extends State<HomeContainer> {
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text("Top Track US", style: TextStyle(fontSize: 20, color: Colors.white),),
-                        _horizontalListVideo(_homeBloc.usTopTracksVideos),
+                        Text("Top Track US", style: TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),),
+                        _horizontalListVideo(context,_homeBloc.usTopTracksVideos),
                       ],
                     );
                   }else{
@@ -141,8 +124,8 @@ class _HomeContainerState extends State<HomeContainer> {
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text("Top Track US", style: TextStyle(fontSize: 20, color: Colors.white),),
-                    _horizontalListVideo(snapshot.data!.videos),
+                    Text("Top Track US", style: TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),),
+                    _horizontalListVideo(context,snapshot.data!.videos),
                   ],
                 );
               },
@@ -151,7 +134,7 @@ class _HomeContainerState extends State<HomeContainer> {
           Container(
             width: baseWidth*0.8,
             height:null ,
-            margin: EdgeInsets.symmetric(horizontal: 5),
+            margin: EdgeInsets.only(left: 5,right: 5,top: 20),
             child:   StreamBuilder<VideosResponse>(
                 stream: _homeBloc.ukTracksStreamController.stream,
                 builder: (context, snapshot) {
@@ -159,13 +142,13 @@ class _HomeContainerState extends State<HomeContainer> {
                     return Container();
                   }
 
-                  return _gridListVideos(snapshot.data!);
+                  return _gridListVideos(context,snapshot.data!);
                 }
             ),
           ), //gridview
           Container(
             height: null,
-            margin: EdgeInsets.symmetric(vertical: 5,horizontal: 5),
+            margin: EdgeInsets.only(left: 5,right: 5,top: 30),
             child: StreamBuilder<VideosResponse>(
               stream: _homeBloc.vnTracksStreamController.stream,
               builder: (context,snapshot){
@@ -174,8 +157,8 @@ class _HomeContainerState extends State<HomeContainer> {
                    return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text("Top Track VN", style: TextStyle(fontSize: 20, color: Colors.white),),
-                        _horizontalListVideo(_homeBloc.vnTopTracksVideos),
+                        Text("Top Track VN", style: TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),),
+                        _horizontalListVideo(context,_homeBloc.vnTopTracksVideos),
                       ],
                     );
                   }else{
@@ -186,8 +169,8 @@ class _HomeContainerState extends State<HomeContainer> {
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text("Top Track VN", style: TextStyle(fontSize: 20, color: Colors.white),),
-                    _horizontalListVideo(snapshot.data!.videos),
+                    Text("Top Track VN", style: TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),),
+                    _horizontalListVideo(context,snapshot.data!.videos),
                   ],
                 );
               },
@@ -195,7 +178,7 @@ class _HomeContainerState extends State<HomeContainer> {
           ),  //vn
           Container(
             height: null,
-            margin: EdgeInsets.symmetric(vertical: 5,horizontal: 5),
+            margin: EdgeInsets.only(left: 5,right: 5,top: 30),
             child: StreamBuilder<VideosResponse>(
               stream: _homeBloc.kpopTracksStreamController.stream,
               builder: (context,snapshot){
@@ -204,8 +187,8 @@ class _HomeContainerState extends State<HomeContainer> {
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text("Top Track Korea",style: TextStyle(fontSize: 20,color: Colors.white),),
-                        _horizontalListVideo(_homeBloc.kpopTopTracksVideos),
+                        Text("Top Track Korea",style: TextStyle(fontSize: 20,color: Colors.white, fontWeight: FontWeight.bold),),
+                        _horizontalListVideo(context,_homeBloc.kpopTopTracksVideos),
                       ],
                     );
                   }else{
@@ -217,7 +200,7 @@ class _HomeContainerState extends State<HomeContainer> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text("Top Track Korea",style: TextStyle(fontSize: 20,color: Colors.white),),
-                    _horizontalListVideo(snapshot.data!.videos),
+                    _horizontalListVideo(context,snapshot.data!.videos),
                   ],
                 );
               },
@@ -251,40 +234,48 @@ class _HomeContainerState extends State<HomeContainer> {
   }
 
   Widget _sliderItem(Video video,double width){
-    return Container(
-      width: width,
-      height: null,
-      margin: EdgeInsets.symmetric(horizontal: 2.5),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(5),
-        image: DecorationImage(
-          fit: BoxFit.cover,
-          image: NetworkImage(video.thumbnailUrl),
+    return GestureDetector(
+      onTap: () => Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (_) => VideoScreenPage(video),
         ),
       ),
       child: Container(
+        width: width,
         height: null,
+        margin: EdgeInsets.symmetric(horizontal: 2.5),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(5),
-          gradient: LinearGradient(
-            begin: Alignment.bottomCenter,
-            end: Alignment.topCenter,
-            colors: [
-              Colors.black.withOpacity(0.7),
-              Colors.transparent,
-            ],
+          image: DecorationImage(
+            fit: BoxFit.cover,
+            image: NetworkImage(video.thumbnailUrl),
           ),
         ),
-        child: Align(
-          alignment: Alignment.bottomLeft,
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Text(
-              video.title,
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
+        child: Container(
+          height: null,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(5),
+            gradient: LinearGradient(
+              begin: Alignment.bottomCenter,
+              end: Alignment.topCenter,
+              colors: [
+                Colors.black.withOpacity(0.7),
+                Colors.transparent,
+              ],
+            ),
+          ),
+          child: Align(
+            alignment: Alignment.bottomLeft,
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Text(
+                video.title,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
           ),
@@ -294,21 +285,25 @@ class _HomeContainerState extends State<HomeContainer> {
 
   }
 
-  Widget _horizontalListVideo(List<Video> videos){
+  Widget _horizontalListVideo(BuildContext context, List<Video> videos){
     return Container(
       height: 150,
+      margin: EdgeInsets.only(top: 10),
       child: ListView.builder(
           scrollDirection: Axis.horizontal,
           itemCount: videos.length,
           itemExtent: null,
           itemBuilder: (context,index){
-            return SquareWidget(videos[index]);
+            return SquareWidget(context,videos[index]);
           }),
     );
   }
 
-  Widget _gridListVideos(VideosResponse data){
+  Widget _gridListVideos(BuildContext context,VideosResponse data){
     int itemCount = data.videos.length; // Tổng số lượng item
+    if(itemCount >6){
+      itemCount = 6;
+    }
     int crossAxisCount = 2; // Số lượng item trên một hàng
     int rows = (itemCount / crossAxisCount).ceil(); // Số lượng hàng
 
@@ -322,9 +317,10 @@ class _HomeContainerState extends State<HomeContainer> {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Text(data.nameLayout, style: TextStyle(fontSize: 20, color: Colors.white),),
+          Text("data.nameLayout", style: TextStyle(fontSize: 20, color: Colors.white),),
           Container(
             height: height,
+            margin:EdgeInsets.only(top: 10,left: 5,right: 5),
             child: GridView.count(
               physics: NeverScrollableScrollPhysics(),
               primary: false,
@@ -334,11 +330,11 @@ class _HomeContainerState extends State<HomeContainer> {
               crossAxisCount: 2,
               childAspectRatio: 2.5,
               children: List.generate(
-                data.videos.length,
+                itemCount,
                     (index) => Container(
                   height: null,
                   child: Center(
-                    child: GridItemWidget(data.videos[index]),
+                    child: GridItemWidget(context,data.videos[index]),
                   ),
                 ),
               ),

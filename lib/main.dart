@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:youtube_baonh/features/home_page/home_page.dart';
 import 'package:youtube_baonh/features/search_page/search_page.dart';
 
@@ -7,6 +8,10 @@ import 'features/channel_page/channel_page.dart';
 import 'features/player_page/Player_Page.dart';
 
 void main() {
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
   runApp(const MyApp());
 }
 

@@ -20,15 +20,15 @@ class _NavigationBarBottomState extends State<NavigationBarBottom> {
     super.initState();
     _bottomNavBarItems = [
       BottomNavigationBarItem(
-        icon: Icon(Icons.home),
-        label: 'Home',
+        icon: Icon(Icons.home,color: Colors.deepOrange,),
+        label:"Home" ,
       ),
       BottomNavigationBarItem(
-        icon: Icon(Icons.search),
+        icon: Icon(Icons.search,color: Colors.deepOrange),
         label: 'Search',
       ),
       BottomNavigationBarItem(
-        icon: Icon(Icons.person),
+        icon: Icon(Icons.person,color: Colors.deepOrange),
         label: 'Profile',
       ),
     ];
@@ -39,9 +39,14 @@ class _NavigationBarBottomState extends State<NavigationBarBottom> {
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
-
+      backgroundColor: Colors.black,
       items: _bottomNavBarItems,
       currentIndex: _currentIndex,
+      selectedItemColor: Colors.white,
+      unselectedItemColor: Colors.grey,
+      // Đặt style cho label của các BottomNavigationBarItem
+      selectedLabelStyle: TextStyle(fontWeight: FontWeight.bold,color: Colors.white),
+      unselectedLabelStyle: TextStyle(fontWeight: FontWeight.normal,color: Colors.grey),
       onTap: (index) {
         _onTap(index);
       },
@@ -55,7 +60,7 @@ class _NavigationBarBottomState extends State<NavigationBarBottom> {
     switch(index) {
       case 0:
       // navigate to home page
-        Navigator.pushReplacementNamed(context, "channel-page");
+        Navigator.pushReplacementNamed(context, "home-page");
         break;
       case 1:
       // navigate to search page

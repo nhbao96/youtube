@@ -120,7 +120,7 @@ class _VideoScreenContainerState extends State<VideoScreenContainer> {
       padding: EdgeInsets.all(10.0),
       height: 140.0,
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Colors.black,
         boxShadow: [
           BoxShadow(
             color: Colors.black12,
@@ -140,7 +140,7 @@ class _VideoScreenContainerState extends State<VideoScreenContainer> {
             child: Text(
               video.title,
               style: TextStyle(
-                color: Colors.black,
+                color: Colors.white,
                 fontSize: 18.0,
               ),
             ),

@@ -39,3 +39,18 @@ String convertToMoney(int value){
   String result  =  NumberFormat.currency(locale: 'eu',symbol: 'VND',decimalDigits : 0).format(value);
   return result;
 }
+
+String greeting() {
+  var now = DateTime.now();
+  var hour = now.hour;
+
+  if (hour >= 5 && hour < 12) {
+    return "Buổi sáng năng lượng !";
+  } else if (hour >= 12 && hour < 14) {
+   return "Buổi trưa vui vẻ!!";
+  } else if (hour >= 14 && hour < 18) {
+    return "Buổi chiều nhẹ nhàng ...";
+  } else {
+    return "Chào buổi tối !";
+  }
+}

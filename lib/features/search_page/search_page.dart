@@ -69,30 +69,38 @@ class _SearchContainerState extends State<SearchContainer> {
   Widget build(BuildContext context) {
     return  SafeArea(
       child: Container(
-        margin: EdgeInsets.symmetric(horizontal: 10),
+        margin: EdgeInsets.symmetric(horizontal: 10,vertical: 10),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            TextField(
-              controller: _searchController,
-              decoration: InputDecoration(
-                hintText: "Search...",
-                border: OutlineInputBorder(),
+            Text("Tìm kiếm",style: TextStyle(fontSize: 22,fontWeight: FontWeight.bold,color: Colors.white),),
+            Container(
+              margin: EdgeInsets.only(top: 10),
+              child: TextField(
+                controller: _searchController,
+                style: TextStyle(color: Colors.white),
+                decoration: InputDecoration(
+                  hintText: "Bạn muốn nghe gì?",
+                  prefixIcon: Icon(Icons.search),
+                  border: OutlineInputBorder(),
+                  filled: true,
+                  fillColor: Colors.white
+                ),
+                onChanged: (value){
+                  _searchBloc.eventSink.add(AutoCompleteKeywordsEvent(value));
+                },
+                onSubmitted: (value){
+                  print("SearchPage : submit keyword : $value");
+                  _searchBloc.eventSink.add(SearchWithKeywordEvent(value));
+                },
               ),
-              onChanged: (value){
-                _searchBloc.eventSink.add(AutoCompleteKeywordsEvent(value));
-              },
-              onSubmitted: (value){
-                print("SearchPage : submit keyword : $value");
-                _searchBloc.eventSink.add(SearchWithKeywordEvent(value));
-              },
             ),
             SizedBox(height: 20),
             Text(
-              "Recommended keywords",
+              "Nội dung tìm kiếm",
               style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
+                fontSize: 20,
+                fontWeight: FontWeight.bold,color: Colors.white
               ),
             ),
             SizedBox(height: 10),
@@ -126,7 +134,7 @@ class _SearchContainerState extends State<SearchContainer> {
 
  Widget keywordWidget(Video video){
     return ListTile(
-      title: Text(video.title,overflow: TextOverflow.ellipsis,),
+      title: Text(video.title,overflow: TextOverflow.ellipsis,style: TextStyle(color: Colors.white),),
       onTap: () {
         // Set the search keyword from the recommended list
         _searchController.text = video.title;
