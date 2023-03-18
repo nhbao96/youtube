@@ -108,8 +108,9 @@ class _HomeContainerState extends State<HomeContainer> {
               builder: (context,snapshot){
               if(snapshot.hasError || snapshot.data == null){
                   if(_homeBloc.sliderVideos.length > 0){
-                    _sliderTrendingWidget(_homeBloc.sliderVideos,baseWidth);
+                    return _sliderTrendingWidget(_homeBloc.sliderVideos,baseWidth);
                   }else{
+                    print("disapper Sliderrrr");
                     return Container();
                   }
                 }

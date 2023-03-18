@@ -73,6 +73,7 @@ class HomeBloc extends BaseBloc{
         VideosResponse videosResponse = VideosResponse();
         videosResponse.nameLayout = VariableConstant.LAYOUT_COMPO_SLIDER;
         videosResponse.videos = videos;
+        _sliderVideos = videos;
         _sliderStreamController.add(videosResponse);
       }
     }catch(e){
