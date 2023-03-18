@@ -6,8 +6,7 @@ import '../../data/datasources/models/video_model.dart';
 Widget SquareWidget(Video video){
   return Container(
     width: 150,
-
-    color: Colors.green,
+    height: 150,
     margin: EdgeInsets.symmetric(horizontal: 10),
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -19,6 +18,7 @@ Widget SquareWidget(Video video){
       image: NetworkImage(video.thumbnailUrl),
     ),
         Container(
+          height: null,
           child: Text(
             video.title,
             maxLines: 2,
