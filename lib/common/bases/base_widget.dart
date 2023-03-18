@@ -29,6 +29,7 @@ class PageContainer extends StatelessWidget {
         return MultiProvider(
           providers: [...providers],
           child: Scaffold(
+            backgroundColor: Colors.black,
             appBar: appBar,
             body: child,
             bottomNavigationBar:
@@ -37,6 +38,7 @@ class PageContainer extends StatelessWidget {
         );
       } else {
         return Scaffold(
+            backgroundColor: Colors.black,
             appBar: appBar,
             body: child,
             bottomNavigationBar:
@@ -47,12 +49,14 @@ class PageContainer extends StatelessWidget {
         return MultiProvider(
           providers: [...providers],
           child: Scaffold(
+            backgroundColor: Colors.black,
             appBar: appBar,
             body: child,
           ),
         );
       } else {
         return Scaffold(
+          backgroundColor: Colors.black,
             appBar: appBar,
             body: child,);
       }

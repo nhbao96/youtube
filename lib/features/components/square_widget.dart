@@ -19,12 +19,15 @@ Widget SquareWidget(Video video){
     ),
         Container(
           height: null,
+          margin: EdgeInsets.symmetric(horizontal: 5),
           child: Text(
             video.title,
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
+
             style: TextStyle(
-              fontSize: 10.0,
+              color: Colors.white,
+              fontSize: 12.0,
               fontWeight: FontWeight.bold,
             ),
           ),

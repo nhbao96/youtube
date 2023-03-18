@@ -19,8 +19,8 @@ Widget GridItemWidget(Video video){
           maxLines: 2,
           overflow: TextOverflow.ellipsis,
           style: TextStyle(
-            color: Colors.black,
-            fontSize: 10.0,
+            color: Colors.white,
+            fontSize: 12.0,
           ),
         ),
       ),

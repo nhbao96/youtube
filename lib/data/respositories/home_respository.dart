@@ -45,27 +45,50 @@ class HomeRespository {
     try{
       Response response = await _apiService.getTopTrackMusic(country, queryKey, maxResult);
       if(response.statusCode == 200){
+        var data = json.decode(response.body);
         VideosResponse model = VideosResponse();
         model.id=country;
-
-        var data = json.decode(response.body);
-
         List<dynamic> videosJson = data['items'];
 
         // Fetch first eight videos from uploads playlist
         List<Video> videos = [];
-        videosJson.forEach(
-              (json) => videos.add(
-            Video.fromMapRelative(json),
-          ),
-        );
-        model.videos = videos;
+        List<String> videoIds = [];
+        for(int i = 0; i < videosJson.length;i++){
+          videos.add(Video.fromMapRelative(videosJson[i]));
+          videoIds.add(videos[i].id);
+        }
+        model.videos = await getDetailOfTopTracks(videoIds);
+
         completer.complete(model);
       }else{
         throw response.statusCode;
       }
     }catch(e){
       completer.completeError(e.toString());
+    }
+    return completer.future;
+  }
+
+  Future<List<Video>> getDetailOfTopTracks(List<String> ids) async{
+    Completer<List<Video>> completer = Completer();
+    try{
+      Response response = await _apiService.getDetailOfTopTracks(ids);
+      if(response.statusCode == 200){
+        var data = json.decode(response.body);
+
+        List<dynamic> videosJson = data['items'];
+        List<Video> videos = [];
+        videosJson.forEach(
+              (json) => videos.add(
+            Video.fromMapTrendingMusic(json),
+          ),
+        );
+        completer.complete(videos);
+      }else{
+        throw "getDetailOfTopTracks : ${response.statusCode}";
+      }
+    }catch(e){
+      completer.completeError(e);
     }
     return completer.future;
   }

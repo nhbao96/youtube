@@ -23,3 +23,4 @@ class LoadCountryTracksEvent extends BaseEvent{
 
   LoadCountryTracksEvent(this._id, this._queryKey, this._nameLayout);
 }
+

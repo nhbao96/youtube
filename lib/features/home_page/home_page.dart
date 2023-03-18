@@ -42,6 +42,26 @@ class _HomePageState extends State<HomePage> {
               })
         ],
     appBar: AppBar(
+      backgroundColor: Colors.black,
+      centerTitle: true,
+     title:  Container(
+       width: 300,
+       height: 50,
+       child: TextField(
+
+         decoration: InputDecoration(
+           hintText: "Search...",
+           border: OutlineInputBorder(),
+         ),
+         onChanged: (value){
+
+         },
+         onSubmitted: (value){
+           print("SearchPage : submit keyword : $value");
+
+         },
+       ),
+     ),
     ),
     isShowNavigationBar: true,);
   }
@@ -64,6 +84,9 @@ class _HomeContainerState extends State<HomeContainer> {
     _homeBloc = context.read();
     _homeBloc.eventSink.add(LoadTrendingMusicSliderEvent());
     _homeBloc.eventSink.add(LoadCountryTracksEvent("VN", "vietnam music", VariableConstant.LAYOUT_COMPO_VN));
+    _homeBloc.eventSink.add(LoadCountryTracksEvent("US", "vietnam music", VariableConstant.LAYOUT_COMPO_VN));
+    _homeBloc.eventSink.add(LoadCountryTracksEvent("KR", "vietnam music", VariableConstant.LAYOUT_COMPO_VN));
+    _homeBloc.eventSink.add(LoadCountryTracksEvent("UK", "vietnam music", VariableConstant.LAYOUT_COMPO_VN));
   }
 
   @override
@@ -83,51 +106,122 @@ class _HomeContainerState extends State<HomeContainer> {
             child: StreamBuilder<VideosResponse>(
               stream: _homeBloc.sliderStreamController.stream,
               builder: (context,snapshot){
-                if(snapshot.hasError || snapshot.data == null ){
-                  print("_sliderTrendingWidget no data");
-                  return Container();
+              if(snapshot.hasError || snapshot.data == null){
+                  if(_homeBloc.sliderVideos.length > 0){
+                    _sliderTrendingWidget(_homeBloc.sliderVideos,baseWidth);
+                  }else{
+                    return Container();
+                  }
                 }
-                print("_sliderTrendingWidget has data");
                 return _sliderTrendingWidget(snapshot.data!.videos,baseWidth);
               },
             ),
-          ),
+          ), //slider
           Container(
             height: null,
             margin: EdgeInsets.symmetric(vertical: 5,horizontal: 5),
             child: StreamBuilder<VideosResponse>(
-              stream: _homeBloc.vnTracksStreamController.stream,
+              stream: _homeBloc.usTracksStreamController.stream,
               builder: (context,snapshot){
-                if(snapshot.hasError || snapshot.data == null ){
-                  print("_horizontalListVideo no data");
-                  return Container();
+               if(snapshot.hasError || snapshot.data == null){
+                  if(_homeBloc.usTopTracksVideos.length > 0){
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text("Top Track US", style: TextStyle(fontSize: 20, color: Colors.white),),
+                        _horizontalListVideo(_homeBloc.usTopTracksVideos),
+                      ],
+                    );
+                  }else{
+                    return Container();
+                  }
                 }
                 print("_horizontalListVideo has data");
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text("Top Track VN"),
+                    Text("Top Track US", style: TextStyle(fontSize: 20, color: Colors.white),),
                     _horizontalListVideo(snapshot.data!.videos),
                   ],
                 );
               },
             ),
-          ),
+          ), //us
           Container(
             width: baseWidth*0.8,
             height:null ,
             margin: EdgeInsets.symmetric(horizontal: 5),
             child:   StreamBuilder<VideosResponse>(
-                stream: _homeBloc.sliderStreamController.stream,
+                stream: _homeBloc.ukTracksStreamController.stream,
                 builder: (context, snapshot) {
-                  if(snapshot.hasError || snapshot.data == null ){
+                  if(snapshot.hasError || snapshot.data == null){
                     return Container();
                   }
 
                   return _gridListVideos(snapshot.data!);
                 }
             ),
-          )
+          ), //gridview
+          Container(
+            height: null,
+            margin: EdgeInsets.symmetric(vertical: 5,horizontal: 5),
+            child: StreamBuilder<VideosResponse>(
+              stream: _homeBloc.vnTracksStreamController.stream,
+              builder: (context,snapshot){
+                if(snapshot.hasError || snapshot.data == null){
+                  if(_homeBloc.vnTopTracksVideos.length > 0){
+                   return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text("Top Track VN", style: TextStyle(fontSize: 20, color: Colors.white),),
+                        _horizontalListVideo(_homeBloc.vnTopTracksVideos),
+                      ],
+                    );
+                  }else{
+                    return Container();
+                  }
+                }
+                print("vnTracksStreamController has data");
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text("Top Track VN", style: TextStyle(fontSize: 20, color: Colors.white),),
+                    _horizontalListVideo(snapshot.data!.videos),
+                  ],
+                );
+              },
+            ),
+          ),  //vn
+          Container(
+            height: null,
+            margin: EdgeInsets.symmetric(vertical: 5,horizontal: 5),
+            child: StreamBuilder<VideosResponse>(
+              stream: _homeBloc.kpopTracksStreamController.stream,
+              builder: (context,snapshot){
+              if(snapshot.hasError || snapshot.data == null){
+                  if(_homeBloc.kpopTopTracksVideos.length> 0){
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text("Top Track Korea",style: TextStyle(fontSize: 20,color: Colors.white),),
+                        _horizontalListVideo(_homeBloc.kpopTopTracksVideos),
+                      ],
+                    );
+                  }else{
+                    return Container();
+                  }
+                }
+                print("kpopTracksStreamController has data");
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text("Top Track Korea",style: TextStyle(fontSize: 20,color: Colors.white),),
+                    _horizontalListVideo(snapshot.data!.videos),
+                  ],
+                );
+              },
+            ),
+          ),  //kpop
         ],
 
       ),
@@ -187,6 +281,7 @@ class _HomeContainerState extends State<HomeContainer> {
             child: Text(
               video.title,
               style: TextStyle(
+                color: Colors.white,
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
               ),
@@ -226,7 +321,7 @@ class _HomeContainerState extends State<HomeContainer> {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Text(data.nameLayout, style: TextStyle(fontSize: 15),),
+          Text(data.nameLayout, style: TextStyle(fontSize: 20, color: Colors.white),),
           Container(
             height: height,
             child: GridView.count(

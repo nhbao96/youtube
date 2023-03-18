@@ -13,10 +13,27 @@ class HomeBloc extends BaseBloc{
   late HomeRespository _homeRespository;
   StreamController<VideosResponse> _sliderStreamController = StreamController.broadcast();
   StreamController<VideosResponse> _vnTracksStreamController = StreamController.broadcast();
+  StreamController<VideosResponse> _usTracksStreamController = StreamController.broadcast();
+  StreamController<VideosResponse> _kpopTracksStreamController = StreamController.broadcast();
+  StreamController<VideosResponse> _ukTracksStreamController = StreamController.broadcast();
+
+  List<Video> _sliderVideos = [];
+  List<Video> _usTopTracksVideos = [];
+  List<Video> _ukTopTracksVideos = [];
+  List<Video> _kpopTopTracksVideos = [];
+  List<Video> _vnTopTracksVideos = [];
+
+  List<Video> get sliderVideos => _sliderVideos;
 
   StreamController<VideosResponse> get sliderStreamController => _sliderStreamController;
 
   StreamController<VideosResponse> get vnTracksStreamController => _vnTracksStreamController;
+
+  StreamController<VideosResponse> get usTracksStreamController => _usTracksStreamController;
+
+  StreamController<VideosResponse> get kpopTracksStreamController => _kpopTracksStreamController;
+
+  StreamController<VideosResponse> get ukTracksStreamController => _ukTracksStreamController;
 
   void updateHomeRespository(HomeRespository homeRespository){
     _homeRespository = homeRespository;
@@ -42,6 +59,9 @@ class HomeBloc extends BaseBloc{
     super.dispose();
     _sliderStreamController.close();
     _vnTracksStreamController.close();
+    _usTracksStreamController.close();
+    _kpopTracksStreamController.close();
+    _ukTracksStreamController.close();
   }
 
   void handleLoadTrendingMusicSliderEvent(LoadTrendingMusicSliderEvent event) async{
@@ -65,7 +85,22 @@ class HomeBloc extends BaseBloc{
       VideosResponse videosResponse = await _homeRespository.getCountryTracks(event.id, event.queryKey, 20);
       print("handleLoadCountryTracksEvent legth = ${videosResponse.videos.length}");
       if(videosResponse.videos.length>0){
-        _vnTracksStreamController.add(videosResponse);
+        if(event.id == "VN"){
+          print("VNN : length = ${videosResponse.videos.length}");
+          _vnTopTracksVideos = videosResponse.videos;
+          _vnTracksStreamController.add(videosResponse);
+        }else if(event.id == "US"){
+          _usTopTracksVideos = videosResponse.videos;
+          _usTracksStreamController.add(videosResponse);
+        }else if(event.id == "KR"){
+            print("KRRRR : length = ${videosResponse.videos.length}");
+            _kpopTopTracksVideos = videosResponse.videos;
+          _kpopTracksStreamController.add(videosResponse);
+        }else if(event.id == "UK"){
+          _usTopTracksVideos = videosResponse.videos;
+          _ukTracksStreamController.add(videosResponse);
+        }
+
       }else{
         throw "videos length =0";
       }
@@ -73,4 +108,12 @@ class HomeBloc extends BaseBloc{
       print("handleLoadCountryTracksEvent : error ${e.toString()}");
     }
   }
+
+  List<Video> get usTopTracksVideos => _usTopTracksVideos;
+
+  List<Video> get ukTopTracksVideos => _ukTopTracksVideos;
+
+  List<Video> get kpopTopTracksVideos => _kpopTopTracksVideos;
+
+  List<Video> get vnTopTracksVideos => _vnTopTracksVideos;
 }
