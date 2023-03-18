@@ -45,6 +45,7 @@ class _HomePageState extends State<HomePage> {
         ],
     appBar: AppBar(
       backgroundColor: Colors.black,
+      centerTitle: false,
       title: Text(greeting(),style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,color: Colors.white),),),
     isShowNavigationBar: true,);
   }
@@ -112,7 +113,7 @@ class _HomeContainerState extends State<HomeContainer> {
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text("Top Track US", style: TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),),
+                        Text("Thịnh hành trong tuần", style: TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),),
                         _horizontalListVideo(context,_homeBloc.usTopTracksVideos),
                       ],
                     );
@@ -124,7 +125,7 @@ class _HomeContainerState extends State<HomeContainer> {
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text("Top Track US", style: TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),),
+                    Text("Thịnh hành trong tuần", style: TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),),
                     _horizontalListVideo(context,snapshot.data!.videos),
                   ],
                 );
@@ -157,7 +158,7 @@ class _HomeContainerState extends State<HomeContainer> {
                    return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text("Top Track VN", style: TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),),
+                        Text("Nhạc Việt hot", style: TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),),
                         _horizontalListVideo(context,_homeBloc.vnTopTracksVideos),
                       ],
                     );
@@ -169,7 +170,7 @@ class _HomeContainerState extends State<HomeContainer> {
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text("Top Track VN", style: TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),),
+                    Text("Nhạc Việt hot", style: TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),),
                     _horizontalListVideo(context,snapshot.data!.videos),
                   ],
                 );
@@ -187,7 +188,7 @@ class _HomeContainerState extends State<HomeContainer> {
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text("Top Track Korea",style: TextStyle(fontSize: 20,color: Colors.white, fontWeight: FontWeight.bold),),
+                        Text("Thưởng thức KPOP",style: TextStyle(fontSize: 20,color: Colors.white, fontWeight: FontWeight.bold),),
                         _horizontalListVideo(context,_homeBloc.kpopTopTracksVideos),
                       ],
                     );
@@ -199,7 +200,7 @@ class _HomeContainerState extends State<HomeContainer> {
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text("Top Track Korea",style: TextStyle(fontSize: 20,color: Colors.white),),
+                    Text("Thưởng thức KPOP",style: TextStyle(fontSize: 20,color: Colors.white),),
                     _horizontalListVideo(context,snapshot.data!.videos),
                   ],
                 );
@@ -309,7 +310,7 @@ class _HomeContainerState extends State<HomeContainer> {
 
     double itemHeight = 80.0; // Chiều cao của mỗi item
 
-    double height = rows * itemHeight - 15; // Chiều cao của gridview
+    double height = rows * itemHeight - 15 +((rows)*10); // Chiều cao của gridview
 
     return  Container(
       height: null,
@@ -317,7 +318,7 @@ class _HomeContainerState extends State<HomeContainer> {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Text("data.nameLayout", style: TextStyle(fontSize: 20, color: Colors.white),),
+          Text("US - UK", style: TextStyle(fontSize: 20, color: Colors.white,fontWeight: FontWeight.bold),),
           Container(
             height: height,
             margin:EdgeInsets.only(top: 10,left: 5,right: 5),

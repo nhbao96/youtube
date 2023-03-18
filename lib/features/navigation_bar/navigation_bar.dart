@@ -26,11 +26,11 @@ class _NavigationBarBottomState extends State<NavigationBarBottom> {
       BottomNavigationBarItem(
         icon: Icon(Icons.search,color: Colors.deepOrange),
         label: 'Search',
-      ),
+      )/*,
       BottomNavigationBarItem(
         icon: Icon(Icons.person,color: Colors.deepOrange),
         label: 'Profile',
-      ),
+      ),*/
     ];
 
     _currentIndex = widget.indexSelectedItem;
@@ -45,7 +45,7 @@ class _NavigationBarBottomState extends State<NavigationBarBottom> {
       selectedItemColor: Colors.white,
       unselectedItemColor: Colors.grey,
       // Đặt style cho label của các BottomNavigationBarItem
-      selectedLabelStyle: TextStyle(fontWeight: FontWeight.bold,color: Colors.white),
+      selectedLabelStyle: TextStyle(fontWeight: FontWeight.normal,color: Colors.white),
       unselectedLabelStyle: TextStyle(fontWeight: FontWeight.normal,color: Colors.grey),
       onTap: (index) {
         _onTap(index);

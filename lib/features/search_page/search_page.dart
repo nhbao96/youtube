@@ -78,7 +78,7 @@ class _SearchContainerState extends State<SearchContainer> {
               margin: EdgeInsets.only(top: 10),
               child: TextField(
                 controller: _searchController,
-                style: TextStyle(color: Colors.white),
+                style: TextStyle(color: Colors.black),
                 decoration: InputDecoration(
                   hintText: "Bạn muốn nghe gì?",
                   prefixIcon: Icon(Icons.search),

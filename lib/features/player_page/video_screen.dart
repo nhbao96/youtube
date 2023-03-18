@@ -117,7 +117,6 @@ class _VideoScreenContainerState extends State<VideoScreenContainer> {
   Widget relatedVideoWidget(Video video){
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 20.0, vertical: 5.0),
-      padding: EdgeInsets.all(10.0),
       height: 140.0,
       decoration: BoxDecoration(
         color: Colors.black,
@@ -139,9 +138,11 @@ class _VideoScreenContainerState extends State<VideoScreenContainer> {
           Expanded(
             child: Text(
               video.title,
+              maxLines: 4,
+              overflow: TextOverflow.ellipsis,
               style: TextStyle(
                 color: Colors.white,
-                fontSize: 18.0,
+                fontSize: 15.0,
               ),
             ),
           ),
