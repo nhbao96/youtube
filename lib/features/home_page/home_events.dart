@@ -24,3 +24,13 @@ class LoadCountryTracksEvent extends BaseEvent{
   LoadCountryTracksEvent(this._id, this._queryKey, this._nameLayout);
 }
 
+class LoadTrendingSingerChannelEvent extends BaseEvent{
+  @override
+  // TODO: implement props
+  List<Object?> get props => [];
+int _maxResult;
+
+  int get maxResult => _maxResult;
+
+  LoadTrendingSingerChannelEvent(this._maxResult);
+}

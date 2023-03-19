@@ -8,6 +8,7 @@ import 'features/channel_page/channel_page.dart';
 import 'features/player_page/Player_Page.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized(); // add this line
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,

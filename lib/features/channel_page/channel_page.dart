@@ -39,7 +39,7 @@ class _ChannelPageState extends State<ChannelPage> {
           },
         )
       ],
-      appBar: AppBar(title: Text("Youtube Channel")),
+      appBar: AppBar(backgroundColor: Colors.black),
       isShowNavigationBar: true,
       indexSelectedNavigation: 0,
     );
@@ -55,26 +55,33 @@ class _ChannelContainerState extends State<ChannelContainer> {
   late ChannelBloc _bloc;
   bool _isLoading = false;
   late Channel _channel;
+  late bool _isLoadPage;
+  late String _idChannel;
 
   @override
   void initState() {
     print("initState");
     super.initState();
     //  _initChannel();
+    _isLoadPage = false;
+
     _bloc = context.read();
-    _bloc.eventSink.add(LoadChannelEvent("UC9sQy-VRzDaDuBD3n4xJ0Zg"));
+    _idChannel = "";
+
+
   }
 
   _buildProfileInfo() {
     return Container(
       margin: EdgeInsets.all(20.0),
       padding: EdgeInsets.all(20.0),
-      height: 100.0,
+      height: null,
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Colors.deepOrange,
+        borderRadius: BorderRadius.circular(10),
         boxShadow: [
           BoxShadow(
-            color: Colors.black12,
+            color: Colors.deepOrange,
             offset: Offset(0, 1),
             blurRadius: 6.0,
           ),
@@ -87,32 +94,36 @@ class _ChannelContainerState extends State<ChannelContainer> {
             radius: 35.0,
             backgroundImage: NetworkImage(_channel.profilePictureUrl),
           ),
-          SizedBox(width: 12.0),
-          Expanded(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(
+
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Container(
+                margin: EdgeInsets.only(left: 10),
+                child: Text(
                   _channel.title,
                   style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 20.0,
-                    fontWeight: FontWeight.w600,
+                    color: Colors.white,
+                    fontSize: 16.0,
+                    fontWeight: FontWeight.bold,
                   ),
                   overflow: TextOverflow.ellipsis,
                 ),
-                Text(
+              ),
+              Container(
+                margin: EdgeInsets.only(top: 10,left: 10),
+                child: Text(
                   '${_channel.subscriberCount} subscribers',
                   style: TextStyle(
-                    color: Colors.grey[600],
-                    fontSize: 16.0,
-                    fontWeight: FontWeight.w600,
+                    color: Colors.white,
+                    fontSize: 12.0,
+
                   ),
                   overflow: TextOverflow.ellipsis,
                 ),
-              ],
-            ),
+              ),
+            ],
           )
         ],
       ),
@@ -132,10 +143,10 @@ class _ChannelContainerState extends State<ChannelContainer> {
         padding: EdgeInsets.all(10.0),
         height: 140.0,
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: Colors.black,
           boxShadow: [
             BoxShadow(
-              color: Colors.black12,
+              color: Colors.black,
               offset: Offset(0, 1),
               blurRadius: 6.0,
             ),
@@ -152,7 +163,7 @@ class _ChannelContainerState extends State<ChannelContainer> {
               child: Text(
                 video.title,
                 style: TextStyle(
-                  color: Colors.black,
+                  color: Colors.white,
                   fontSize: 18.0,
                 ),
               ),
@@ -165,6 +176,16 @@ class _ChannelContainerState extends State<ChannelContainer> {
 
   @override
   Widget build(BuildContext context) {
+    if(!_isLoadPage){
+      final Map<String, dynamic> args = ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>;
+
+      _idChannel = args['idChannel'];
+
+      _bloc.eventSink.add(LoadChannelEvent(_idChannel));
+      _isLoadPage = true;
+    }
+
+
     return SafeArea(
         child: StreamBuilder<Channel>(
       stream: _bloc.streamController.stream,
@@ -179,7 +200,7 @@ class _ChannelContainerState extends State<ChannelContainer> {
                 _channel.videos.length != int.parse(_channel.videoCount) &&
                 scrollDetails.metrics.pixels ==
                     scrollDetails.metrics.maxScrollExtent) {
-              _bloc.eventSink.add(LoadChannelEvent("UC9sQy-VRzDaDuBD3n4xJ0Zg"));
+              _bloc.eventSink.add(LoadChannelEvent(_idChannel));
             }
             return false;
           },

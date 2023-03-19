@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:youtube_baonh/common/bases/base_event.dart';
 import 'package:youtube_baonh/common/constants/variable_constant.dart';
+import 'package:youtube_baonh/data/datasources/models/channel_model.dart';
 import 'package:youtube_baonh/data/datasources/models/videos_response.dart';
 import 'package:youtube_baonh/data/respositories/home_respository.dart';
 import 'package:youtube_baonh/features/home_page/home_events.dart';
@@ -16,14 +17,17 @@ class HomeBloc extends BaseBloc{
   StreamController<VideosResponse> _usTracksStreamController = StreamController.broadcast();
   StreamController<VideosResponse> _kpopTracksStreamController = StreamController.broadcast();
   StreamController<VideosResponse> _ukTracksStreamController = StreamController.broadcast();
+  StreamController<List<Channel>> _singerChannelStreamController = StreamController.broadcast();
 
   List<Video> _sliderVideos = [];
   List<Video> _usTopTracksVideos = [];
   List<Video> _ukTopTracksVideos = [];
   List<Video> _kpopTopTracksVideos = [];
   List<Video> _vnTopTracksVideos = [];
-
+  List<Channel> _singerChannels = [];
   List<Video> get sliderVideos => _sliderVideos;
+
+  List<Channel> get singerChannels => _singerChannels;
 
   StreamController<VideosResponse> get sliderStreamController => _sliderStreamController;
 
@@ -34,6 +38,9 @@ class HomeBloc extends BaseBloc{
   StreamController<VideosResponse> get kpopTracksStreamController => _kpopTracksStreamController;
 
   StreamController<VideosResponse> get ukTracksStreamController => _ukTracksStreamController;
+
+  StreamController<List<Channel>> get singerChannelStreamController => _singerChannelStreamController;
+
 
   void updateHomeRespository(HomeRespository homeRespository){
     _homeRespository = homeRespository;
@@ -47,6 +54,9 @@ class HomeBloc extends BaseBloc{
         break;
       case LoadCountryTracksEvent:
         handleLoadCountryTracksEvent(event as LoadCountryTracksEvent);
+        break;
+      case LoadTrendingSingerChannelEvent:
+        handleLoadTrendingSingerChannelEvent(event as LoadTrendingSingerChannelEvent);
         break;
       default:
         break;
@@ -62,6 +72,7 @@ class HomeBloc extends BaseBloc{
     _usTracksStreamController.close();
     _kpopTracksStreamController.close();
     _ukTracksStreamController.close();
+    _singerChannelStreamController.close();
   }
 
   void handleLoadTrendingMusicSliderEvent(LoadTrendingMusicSliderEvent event) async{
@@ -117,4 +128,18 @@ class HomeBloc extends BaseBloc{
   List<Video> get kpopTopTracksVideos => _kpopTopTracksVideos;
 
   List<Video> get vnTopTracksVideos => _vnTopTracksVideos;
+
+  void handleLoadTrendingSingerChannelEvent(LoadTrendingSingerChannelEvent event) async{
+    try{
+      List<Channel> channels = await _homeRespository.getTopSingers(event.maxResult);
+      if(channels.length > 0){
+        _singerChannels = channels;
+        _singerChannelStreamController.add(channels);
+      }else{
+        throw "length =0";
+      }
+    }catch(e){
+      print("handleLoadTrendingSingerChannelEvent : error : ${e.toString()}");
+    }
+  }
 }

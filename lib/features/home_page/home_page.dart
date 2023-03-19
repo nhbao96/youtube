@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:youtube_baonh/common/bases/base_widget.dart';
 import 'package:youtube_baonh/common/constants/variable_constant.dart';
+import 'package:youtube_baonh/data/datasources/models/channel_model.dart';
 import 'package:youtube_baonh/data/datasources/models/videos_response.dart';
 import 'package:youtube_baonh/data/respositories/home_respository.dart';
 import 'package:youtube_baonh/data/services/api_service.dart';
 import 'package:youtube_baonh/features/components/grid_video_widget.dart';
+import 'package:youtube_baonh/features/components/singer_widget.dart';
 import 'package:youtube_baonh/features/home_page/home_bloc.dart';
 import 'package:youtube_baonh/features/home_page/home_events.dart';
 
@@ -71,6 +73,7 @@ class _HomeContainerState extends State<HomeContainer> {
     _homeBloc.eventSink.add(LoadCountryTracksEvent("US", "us music", VariableConstant.LAYOUT_COMPO_VN));
     _homeBloc.eventSink.add(LoadCountryTracksEvent("KR", "korea music", VariableConstant.LAYOUT_COMPO_VN));
     _homeBloc.eventSink.add(LoadCountryTracksEvent("UK", "uk music", VariableConstant.LAYOUT_COMPO_VN));
+    _homeBloc.eventSink.add(LoadTrendingSingerChannelEvent(10));
   }
 
   @override
@@ -176,7 +179,37 @@ class _HomeContainerState extends State<HomeContainer> {
                 );
               },
             ),
-          ),  //vn
+          ),
+          Container(
+            height: null,
+            margin: EdgeInsets.only(left: 5,right: 5,top: 30),
+            child: StreamBuilder<List<Channel>>(
+              stream: _homeBloc.singerChannelStreamController.stream,
+              builder: (context,snapshot){
+                if(snapshot.hasError || snapshot.data == null){
+                  if(_homeBloc.singerChannels.length > 0){
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text("Ca sĩ trong tuần", style: TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),),
+                        horizontalListSingers(context,_homeBloc.singerChannels),
+                      ],
+                    );
+                  }else{
+                    return Container();
+                  }
+                }
+                print("vnTracksStreamController has data");
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text("Ca sĩ trong tuần", style: TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),),
+                    horizontalListSingers(context,snapshot.data!),
+                  ],
+                );
+              },
+            ),
+          ),//singer
           Container(
             height: null,
             margin: EdgeInsets.only(left: 5,right: 5,top: 30),

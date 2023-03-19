@@ -102,7 +102,7 @@ class HomeRespository {
         var data = json.decode(response.body);
 
         List<dynamic> channelsJson = data['items'];
-        print(channelsJson);
+       // print(channelsJson);
         List<Channel> channels = [];
         channelsJson.forEach(
               (json) =>

@@ -161,7 +161,7 @@ class APIService {
 
   Future getTopSingers(int maxResult){
     final apiKey = getRandomApiKeys(VariableConstant.LIST_KEY_API);
-    final String query = "top trending singers";
+    final String query = "top billboard us-uk trending singers";
     final String type = "channel";
     final String maxResults = maxResult.toString();
     final String url = "https://www.googleapis.com/youtube/v3/search?part=snippet&q=$query&type=$type&key=$apiKey&maxResults=$maxResult";
