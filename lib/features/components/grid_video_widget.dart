@@ -14,11 +14,14 @@ Widget GridItemWidget(BuildContext context, Video video){
     ),
     child: Row(
       children: <Widget>[
-        Image(
-          height: 80.0,
-          width: 80,
-          fit: BoxFit.fill,
-          image: NetworkImage(video.thumbnailUrl),
+        ClipRRect(
+          borderRadius: BorderRadius.circular(6),
+          child: Image(
+            height: 80.0,
+            width: 80,
+            fit: BoxFit.fill,
+            image: NetworkImage(video.thumbnailUrl),
+          ),
         ),
         SizedBox(width: 10.0),
         Expanded(

@@ -19,15 +19,18 @@ Widget SquareWidget(BuildContext context,Video video){
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-        Image(
-        width: 150.0,
-        height: 110,
-        fit: BoxFit.fill,
-        image: NetworkImage(video.thumbnailUrl),
+        ClipRRect(
+          borderRadius: BorderRadius.circular(6),
+          child: Image(
+          width: 150.0,
+          height: 110,
+          fit: BoxFit.fill,
+          image: NetworkImage(video.thumbnailUrl),
       ),
+        ),
           Container(
             height: null,
-            margin: EdgeInsets.symmetric(horizontal: 5),
+            margin: EdgeInsets.only(top: 5,left: 3),
             child: Text(
               video.title,
               maxLines: 2,
@@ -35,7 +38,7 @@ Widget SquareWidget(BuildContext context,Video video){
 
               style: TextStyle(
                 color: Colors.white,
-                fontSize: 12.0,
+                fontSize: 11.0,
                 fontWeight: FontWeight.bold,
               ),
             ),

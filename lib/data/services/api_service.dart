@@ -1,6 +1,9 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:youtube_baonh/common/constants/variable_constant.dart';
+import 'package:youtube_baonh/common/utils/extension.dart';
+
 import '../datasources/models/channel_model.dart';
 import '../datasources/models/video_model.dart';
 import '../utilities/keys.dart';
@@ -24,7 +27,7 @@ class APIService {
     Map<String, String> parameters = {
       'part': 'snippet, contentDetails, statistics',
       'id': channelId,
-      'key': ApiConstant.API_KEY,
+      'key': getRandomApiKeys(VariableConstant.LIST_KEY_API),
     };
     Uri uri = Uri.https(
       _baseUrl,
@@ -46,7 +49,7 @@ class APIService {
       'playlistId': playlistId,
       'maxResults': totalVideos.toString(),
       'pageToken': _nextPageToken,
-      'key': ApiConstant.API_KEY,
+      'key': getRandomApiKeys(VariableConstant.LIST_KEY_API),
     };
     Uri uri = Uri.https(
       _baseUrl,
@@ -67,7 +70,7 @@ class APIService {
         '&type=video'
         '&maxResults=100'
         '&relatedToVideoId=$videoId'
-        '&key=${ApiConstant.API_KEY}';
+        '&key=${getRandomApiKeys(VariableConstant.LIST_KEY_API)}';
 
     return http.get(Uri.parse(url));
   }
@@ -78,7 +81,7 @@ class APIService {
       "chart": "mostPopular",
       "regionCode": "VN",
       "maxResults": "5",
-      "key": ApiConstant.API_KEY
+      "key": getRandomApiKeys(VariableConstant.LIST_KEY_API)
     };
     final uri = Uri.parse("https://www.googleapis.com/youtube/v3/search?" +
         Uri(queryParameters: queryParams).query);
@@ -86,7 +89,7 @@ class APIService {
   }
 
   Future searchVideo(String query) {
-    final apiKey = ApiConstant.API_KEY;
+    final apiKey = getRandomApiKeys(VariableConstant.LIST_KEY_API);
     final url =
         'https://www.googleapis.com/youtube/v3/search?key=$apiKey&part=snippet&q=$query&type=video';
 
@@ -94,7 +97,7 @@ class APIService {
   }
 
   Future autocomplete(String query) {
-    final apiKey = ApiConstant.API_KEY;
+    final apiKey = getRandomApiKeys(VariableConstant.LIST_KEY_API);
     final url =
         'https://suggestqueries.google.com/complete/search?key=$apiKey&client=youtube&ds=yt&q=$query';
     return http.get(Uri.parse(url));
@@ -107,7 +110,7 @@ class APIService {
       "regionCode": "VN",
       "videoCategoryId": "10",
       "maxResults": maxResult.toString(),
-      "key": ApiConstant.API_KEY
+      "key": getRandomApiKeys(VariableConstant.LIST_KEY_API)
     };
     final uri = Uri.parse("https://www.googleapis.com/youtube/v3/videos?" +
         Uri(queryParameters: queryParams).query);
@@ -116,7 +119,7 @@ class APIService {
 
   Future getTopTrackMusic(String country, String queryKey, int maxResult) {
     // Replace with your YouTube API key
-    final apiKey =  ApiConstant.API_KEY;
+    final apiKey =  getRandomApiKeys(VariableConstant.LIST_KEY_API);
 
     // Define the search query for the top music tracks in Vietnam
     String query = queryKey;// 'vietnam music';
@@ -143,7 +146,7 @@ class APIService {
   }
 
   Future getDetailOfTopTracks(List<String> ids){
-    final apiKey =  ApiConstant.API_KEY;
+    final apiKey =  getRandomApiKeys(VariableConstant.LIST_KEY_API);
     final videoUrl = Uri.https(
       'www.googleapis.com',
       '/youtube/v3/videos',

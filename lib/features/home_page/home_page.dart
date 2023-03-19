@@ -310,7 +310,7 @@ class _HomeContainerState extends State<HomeContainer> {
 
     double itemHeight = 80.0; // Chiều cao của mỗi item
 
-    double height = rows * itemHeight - 15 +((rows)*10); // Chiều cao của gridview
+    double height = rows * itemHeight  +((rows)*10); // Chiều cao của gridview
 
     return  Container(
       height: null,

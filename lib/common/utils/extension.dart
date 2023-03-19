@@ -1,6 +1,10 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/single_child_widget.dart';
+import 'package:youtube_baonh/common/constants/api_constant.dart';
+import 'package:youtube_baonh/common/constants/variable_constant.dart';
 
 void showMessage(
     [BuildContext? context,
@@ -53,4 +57,12 @@ String greeting() {
   } else {
     return "Chào buổi tối !";
   }
+
+}
+
+String getRandomApiKeys(List<String> list){
+  final random = Random();
+  final index = random.nextInt(list.length);
+  print("api key list[${index}] = ${list[index]}");
+  return list[index];
 }
