@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:http/http.dart';
+import 'package:youtube_baonh/data/datasources/models/channel_model.dart';
 import 'package:youtube_baonh/data/datasources/models/video_model.dart';
 import 'package:youtube_baonh/data/services/api_service.dart';
 
@@ -87,6 +88,34 @@ class HomeRespository {
       }else{
         throw "getDetailOfTopTracks : ${response.statusCode}";
       }
+    }catch(e){
+      completer.completeError(e);
+    }
+    return completer.future;
+  }
+
+  Future<List<Channel>> getTopSingers(int maxResult) async{
+    Completer<List<Channel>> completer = Completer();
+    try{
+      Response response = await _apiService.getTopSingers(maxResult);
+      if(response.statusCode == 200) {
+        var data = json.decode(response.body);
+
+        List<dynamic> channelsJson = data['items'];
+        print(channelsJson);
+        List<Channel> channels = [];
+        channelsJson.forEach(
+              (json) =>
+              channels.add(
+                Channel.fromMapTopSinger(json),
+              ),
+        );
+        print("getTopSingers length = ${channels.length}");
+        completer.complete(channels);
+      }else{
+        throw response.statusCode;
+      }
+
     }catch(e){
       completer.completeError(e);
     }

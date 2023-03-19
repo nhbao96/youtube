@@ -67,7 +67,7 @@ class HomeBloc extends BaseBloc{
   void handleLoadTrendingMusicSliderEvent(LoadTrendingMusicSliderEvent event) async{
     try{
       List<Video> videos = await _homeRespository.getTrendingMusic(10);
-
+      _homeRespository.getTopSingers(10);
       print("handleLoadTrendingMusicSliderEvent legth = ${videos.length}");
       if(videos.length > 0){
         VideosResponse videosResponse = VideosResponse();

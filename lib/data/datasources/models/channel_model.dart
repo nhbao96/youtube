@@ -32,6 +32,17 @@ class Channel {
     );
   }
 
+  factory Channel.fromMapTopSinger(Map<String, dynamic> map) {
+    return Channel(
+      id:map['snippet']['channelId'],
+      title: map['snippet']['channelTitle'],
+      profilePictureUrl: map['snippet']['thumbnails']['default']['url'],
+      subscriberCount: '0',
+      videoCount: '',
+      uploadPlaylistId: '', videos: [],
+    );
+  }
+
   @override
   String toString() {
     return 'Channel{id: $id, title: $title, profilePictureUrl: $profilePictureUrl, subscriberCount: $subscriberCount, videoCount: $videoCount, uploadPlaylistId: $uploadPlaylistId, videos: $videos}';
