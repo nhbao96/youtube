@@ -14,10 +14,8 @@ Widget buildVideo(BuildContext context,Video video) {
     ),
     child: Container(
       margin: EdgeInsets.symmetric(horizontal: 20.0, vertical: 5.0),
-      padding: EdgeInsets.all(10.0),
-      height: 140.0,
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Colors.black,
         boxShadow: [
           BoxShadow(
             color: Colors.black12,
@@ -27,6 +25,7 @@ Widget buildVideo(BuildContext context,Video video) {
         ],
       ),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Image(
             width: 150.0,
@@ -34,11 +33,14 @@ Widget buildVideo(BuildContext context,Video video) {
           ),
           SizedBox(width: 10.0),
           Expanded(
-            child: Text(
-              video.title,
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 18.0,
+            child:  Container(
+              margin: EdgeInsets.only(top: 10),
+              child: Text(
+                video.title,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 15.0,
+                ),
               ),
             ),
           ),
