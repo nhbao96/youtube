@@ -21,11 +21,11 @@ class _NavigationBarBottomState extends State<NavigationBarBottom> {
     _bottomNavBarItems = [
       BottomNavigationBarItem(
         icon: Icon(Icons.home,color: Colors.deepOrange,),
-        label:"Home" ,
+        label:"Trang chủ" ,
       ),
       BottomNavigationBarItem(
         icon: Icon(Icons.search,color: Colors.deepOrange),
-        label: 'Search',
+        label: 'Tìm kiếm',
       )/*,
       BottomNavigationBarItem(
         icon: Icon(Icons.person,color: Colors.deepOrange),
